@@ -54,7 +54,11 @@ func (p *Play) afterKaiPaiAction(player player.Player, action actions.KaiPaiActi
 }
 
 func (p *Play) SendPlayKaiPaiRes(player player.Player, action actions.KaiPaiAction) {
-	p.SendPlayRes(player, "kai_pai", action.GetInfo())
+
+	results := action.GetInfo()
+	results["actions"] = player.GetActionsInfo()
+
+	p.SendPlayRes(player, "kai_pai", results)
 }
 
 func (p *Play) nextOp(seatId int) {
@@ -81,7 +85,9 @@ func (p *Play) afterMoPaiAction(player player.Player, action actions.MoPaiAction
 }
 
 func (p *Play) SendPlayMoPaiRes(player player.Player, action actions.MoPaiAction) {
-	p.SendPlayRes(player, "mo_pai", action.GetInfo())
+	results := action.GetInfo()
+	results["actions"] = player.GetActionsInfo()
+	p.SendPlayRes(player, "mo_pai", results)
 }
 
 func (p *Play) onPlayFlow() {

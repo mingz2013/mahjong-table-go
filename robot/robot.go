@@ -125,6 +125,10 @@ func (r *Robot) onActionKaiPai(m msg.Msg) {
 	tiles := results["tiles"].([]int)
 	action := actions.NewKaiPaiAction(tiles)
 	r.Cards.DoKaiPaiAction(action)
+
+	actions_ := results["actions"].([]actions.BaseAction)
+
+	r.doActions(actions_)
 }
 
 func (r *Robot) onActionMoPai(m msg.Msg) {
@@ -132,4 +136,17 @@ func (r *Robot) onActionMoPai(m msg.Msg) {
 	tile := results["tile"].(int)
 	action := actions.NewMoPaiAction(tile)
 	r.Cards.DoMoPaiAction(action)
+
+	actions_ := results["actions"].([]actions.BaseAction)
+	r.doActions(actions_)
+
+}
+
+func (r *Robot) doActions(actions []actions.BaseAction) {
+	for i := 1; i < len(actions); i++ {
+		action := actions[i]
+
+		log.Println("doActions...", action)
+
+	}
 }
