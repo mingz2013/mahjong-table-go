@@ -8,7 +8,7 @@ import (
 )
 
 type Table struct {
-	Id string // 桌子Id，由manager自动生成
+	Id int // 桌子Id，由manager自动生成
 
 	MsgIn  <-chan msg.Msg
 	MsgOut chan<- msg.Msg
@@ -17,7 +17,7 @@ type Table struct {
 	Players [4]player.Player
 }
 
-func NewTable(id string, msgIn <-chan msg.Msg, msgOut chan<- msg.Msg) Table {
+func NewTable(id int, msgIn <-chan msg.Msg, msgOut chan<- msg.Msg) Table {
 	t := Table{Id: id, MsgIn: msgIn, MsgOut: msgOut}
 	t.Init()
 	return t

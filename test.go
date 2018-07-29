@@ -59,7 +59,7 @@ func main() {
 	tableMsgIn := make(chan msg.Msg)
 	tableMsgOut := make(chan msg.Msg)
 
-	table := table2.NewTable("1", tableMsgIn, tableMsgOut)
+	table := table2.NewTable(1, tableMsgIn, tableMsgOut)
 
 	//var robots []RobotContext
 
