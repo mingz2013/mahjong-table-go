@@ -81,6 +81,9 @@ func (p *Play) moPai(player player.Player) {
 }
 
 func (p *Play) afterMoPaiAction(player player.Player, action actions.MoPaiAction) {
+	chuPaiAction := actions.NewChuPaiAction(-1)
+	player.AddAction(&chuPaiAction)
+
 	p.SendPlayMoPaiRes(player, action)
 }
 

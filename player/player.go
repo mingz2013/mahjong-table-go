@@ -37,3 +37,7 @@ func (p *Player) GetActionsInfo() (info []interface{}) {
 	}
 	return
 }
+
+func (p *Player) AddAction(action actions.BaseAction) {
+	p.actions = append(p.actions, action)
+}
