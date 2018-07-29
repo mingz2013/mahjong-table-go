@@ -1,4 +1,4 @@
-package player
+package cards
 
 import "github.com/mingz2013/mahjong-table-go/actions"
 
@@ -40,4 +40,8 @@ func NewCards() Cards {
 
 func (c *Cards) DoKaiPaiAction(action actions.KaiPaiAction) {
 	copy(c.handPile.tiles, action.Tiles)
+}
+
+func (c *Cards) DoMoPaiAction(action actions.MoPaiAction) {
+	c.nowTile = action.Tile
 }

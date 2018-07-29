@@ -1,6 +1,7 @@
 package table
 
 import (
+	"log"
 	"math/rand"
 	"time"
 )
@@ -38,10 +39,23 @@ func (b *Bottom) initTilePool() {
 
 	b.tilePool = tilePool
 
+	log.Println("init tile pool...", b.tilePool)
 }
 
 func (b *Bottom) PopKaiPai() []int {
+	log.Println("Bottom.PopKaiPai...", b.tilePool)
 	tiles := b.tilePool[:13]
 	b.tilePool = b.tilePool[13:]
 	return tiles
+}
+
+func (b *Bottom) PopMoPai() (int, bool) {
+	log.Println("Bottom.PopMoPai...", b.tilePool)
+	if len(b.tilePool) == 0 {
+		return -1, false
+	}
+
+	tile := b.tilePool[0]
+	b.tilePool = b.tilePool[1:]
+	return tile, true
 }

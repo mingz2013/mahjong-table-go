@@ -1,8 +1,9 @@
 package robot
 
 import (
+	"github.com/mingz2013/mahjong-table-go/actions"
+	"github.com/mingz2013/mahjong-table-go/cards"
 	"github.com/mingz2013/mahjong-table-go/msg"
-	"github.com/mingz2013/mahjong-table-go/player"
 	"log"
 	"os"
 	"time"
@@ -11,13 +12,13 @@ import (
 type Robot struct {
 	Id     int
 	Name   string
-	Cards  player.Cards
+	Cards  cards.Cards
 	MsgIn  <-chan msg.Msg
 	MsgOut chan<- msg.Msg
 }
 
 func (r *Robot) Init() {
-	r.Cards = player.NewCards()
+	r.Cards = cards.NewCards()
 }
 
 func NewRobot(id int, name string, msgIn <-chan msg.Msg, msgOut chan<- msg.Msg) Robot {
@@ -110,9 +111,25 @@ func (r *Robot) onPlayMsg(m msg.Msg) {
 
 	switch action {
 	case "kai_pai":
-		break
+		r.onActionKaiPai(m)
+	case "mo_pai":
+		r.onActionMoPai(m)
 	default:
 		log.Println(m)
 	}
 
+}
+
+func (r *Robot) onActionKaiPai(m msg.Msg) {
+	results := m.GetResults()
+	tiles := results["tiles"].([]int)
+	action := actions.NewKaiPaiAction(tiles)
+	r.Cards.DoKaiPaiAction(action)
+}
+
+func (r *Robot) onActionMoPai(m msg.Msg) {
+	results := m.GetResults()
+	tile := results["tile"].(int)
+	action := actions.NewMoPaiAction(tile)
+	r.Cards.DoMoPaiAction(action)
 }
