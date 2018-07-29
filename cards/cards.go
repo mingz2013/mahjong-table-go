@@ -45,3 +45,11 @@ func (c *Cards) DoKaiPaiAction(action actions.KaiPaiAction) {
 func (c *Cards) DoMoPaiAction(action actions.MoPaiAction) {
 	c.nowTile = action.Tile
 }
+
+func (c *Cards) DoAction(action actions.BaseAction) {
+
+}
+
+func (c *Cards) ChoiceActionToDo(actions []actions.BaseAction) actions.BaseAction {
+	return nil
+}

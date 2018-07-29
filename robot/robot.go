@@ -167,10 +167,12 @@ func (r *Robot) processActions(actions_ []map[string]interface{}) {
 
 	}
 
-	// 排序
+	actionObj := r.Cards.ChoiceActionToDo(actionsObj)
+
+	r.DoAction(actionObj)
 
 }
 
-func (r *Robot) choiceActionToDo(action actions.BaseAction) actions.BaseAction {
-	return nil
+func (r *Robot) DoAction(action actions.BaseAction) {
+	r.Cards.DoAction(action)
 }
