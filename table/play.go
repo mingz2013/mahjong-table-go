@@ -13,13 +13,25 @@ type Play struct {
 }
 
 func (p *Play) Init() {
-	p.initTilePool()
+	p.xiPai()
 }
 
 func NewPlay(t *Table) Play {
 	p := Play{table: t}
 	p.Init()
 	return p
+}
+
+func (p *Play) GetInfo() {
+
+}
+
+func (p *Play) ChangeCurrentSeatId() {
+
+}
+
+func (p *Play) GetNextSeatId() {
+
 }
 
 func (p *Play) OnMsg(m msg.Msg) {
@@ -44,13 +56,9 @@ func (p *Play) kaiPai() {
 		player_ := p.table.Players[i]
 		player_.DoKaiPaiAction(action)
 		//action.DoAction(player_)
-		p.afterKaiPaiAction(player_, action)
+		p.afterActionKaiPai(player_, action)
 	}
 
-}
-
-func (p *Play) afterKaiPaiAction(player player.Player, action actions.KaiPaiAction) {
-	p.SendPlayKaiPaiRes(player, action)
 }
 
 func (p *Play) SendPlayKaiPaiRes(player player.Player, action actions.KaiPaiAction) {
@@ -75,16 +83,20 @@ func (p *Play) moPai(player player.Player) {
 		action := actions.NewMoPaiAction(tile)
 		//action.DoAction(player)
 		player.DoMoPaiAction(action)
-		p.afterMoPaiAction(player, action)
+		p.afterActionMoPai(player, action)
 	}
 
 }
 
-func (p *Play) afterMoPaiAction(player player.Player, action actions.MoPaiAction) {
+func (p *Play) afterActionMoPai(player player.Player, action actions.MoPaiAction) {
 	chuPaiAction := actions.NewChuPaiAction(-1)
 	player.AddAction(&chuPaiAction)
 
 	p.SendPlayMoPaiRes(player, action)
+}
+
+func (p *Play) afterActionKaiPai(player player.Player, action actions.KaiPaiAction) {
+	p.SendPlayKaiPaiRes(player, action)
 }
 
 func (p *Play) SendPlayMoPaiRes(player player.Player, action actions.MoPaiAction) {
@@ -94,6 +106,14 @@ func (p *Play) SendPlayMoPaiRes(player player.Player, action actions.MoPaiAction
 }
 
 func (p *Play) onPlayFlow() {
+
+}
+
+func (p *Play) onPlayWin() {
+
+}
+
+func (p *Play) onPlayOver() {
 
 }
 

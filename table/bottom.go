@@ -10,7 +10,15 @@ type Bottom struct {
 	tilePool []int
 }
 
-func (b *Bottom) initTilePool() {
+func (b *Bottom) GetInfo() {
+
+}
+
+func (b *Bottom) RemainingCount() {
+
+}
+
+func (b *Bottom) xiPai() {
 	var single []int
 	for i := 1; i < 10; i++ {
 		single = append(single, i)
@@ -40,6 +48,10 @@ func (b *Bottom) initTilePool() {
 	b.tilePool = tilePool
 
 	log.Println("init tile pool...", b.tilePool)
+}
+
+func (b *Bottom) ZhiSaiZi() {
+
 }
 
 func (b *Bottom) PopKaiPai() []int {

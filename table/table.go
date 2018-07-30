@@ -13,8 +13,9 @@ type Table struct {
 	MsgIn  <-chan msg.Msg
 	MsgOut chan<- msg.Msg
 
-	Play    Play
-	Players [4]player.Player
+	Play Play
+
+	PlayersManager
 }
 
 func NewTable(id int, msgIn <-chan msg.Msg, msgOut chan<- msg.Msg) Table {
