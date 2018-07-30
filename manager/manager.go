@@ -47,6 +47,8 @@ func (mgr *Manager) Run() {
 
 	}
 
+	wg.Wait()
+
 }
 
 func (mgr *Manager) onMsg(m msg.Msg) {
