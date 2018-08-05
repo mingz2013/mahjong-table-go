@@ -2,7 +2,6 @@ package table
 
 import (
 	"github.com/mingz2013/mahjong-table-go/msg"
-	"github.com/mingz2013/mahjong-table-go/player"
 	"log"
 	"time"
 )
@@ -25,9 +24,9 @@ func NewTable(id int, msgIn <-chan msg.Msg, msgOut chan<- msg.Msg) Table {
 }
 
 func (t *Table) Init() {
-	for i := 0; i < 4; i++ {
-		t.Players[i] = player.NewPlayer(i)
-	}
+
+	t.PlayersManager.Init()
+
 	t.Play = NewPlay(t)
 
 }

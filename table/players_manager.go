@@ -6,6 +6,14 @@ type PlayersManager struct {
 	Players [4]player.Player
 }
 
+func (p *PlayersManager) Init() {
+	for i := 0; i < 4; i++ {
+		p.Players[i] = player.NewPlayer(i)
+	}
+	//t.Play = NewPlay(t)
+
+}
+
 func (p *PlayersManager) isAllPlayersChoosedAction() {
 
 }
