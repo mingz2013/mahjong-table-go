@@ -14,7 +14,7 @@ type Table struct {
 
 	Play Play
 
-	PlayersManager
+	TablePlayers
 }
 
 func NewTable(id int, msgIn <-chan msg.Msg, msgOut chan<- msg.Msg) Table {
@@ -25,7 +25,7 @@ func NewTable(id int, msgIn <-chan msg.Msg, msgOut chan<- msg.Msg) Table {
 
 func (t *Table) Init() {
 
-	t.PlayersManager.Init()
+	t.TablePlayers.Init()
 
 	t.Play = NewPlay(t)
 
