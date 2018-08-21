@@ -43,8 +43,9 @@ func (p *Play) OnMsg(m msg.Msg) {
 	var _action actions.BaseAction
 	switch action {
 	case "chu_pai":
-		_action := actions.ChuPaiAction{}
-		_action.ParseFromInfo(m.GetParams())
+		chuPaiAction := actions.ChuPaiAction{}
+		chuPaiAction.ParseFromInfo(m.GetParams())
+		_action = chuPaiAction
 	default:
 		log.Println("Play.OnMsg..err.....", m)
 	}

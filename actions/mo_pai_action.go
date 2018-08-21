@@ -26,10 +26,10 @@ func (a MoPaiAction) GetLevel() int {
 	return a.level
 }
 
-func (a MoPaiAction) IsValid(action *BaseAction) bool {
+func (a MoPaiAction) IsValid(action BaseAction) bool {
 	return false
 }
 
-func (a MoPaiAction) UpdateLocalAction(action *BaseAction) {
+func (a MoPaiAction) UpdateLocalAction(action BaseAction) {
 
 }

@@ -32,10 +32,14 @@ func (a ChuPaiAction) GetLevel() int {
 	return a.level
 }
 
-func (a ChuPaiAction) IsValid(action *BaseAction) bool {
-	return false
+func (a ChuPaiAction) IsValid(action BaseAction) bool {
+	if action.GetLevel() != a.GetLevel() {
+		return false
+	}
+
+	return true
 }
 
-func (a ChuPaiAction) UpdateLocalAction(action *BaseAction) {
+func (a ChuPaiAction) UpdateLocalAction(action BaseAction) {
 
 }

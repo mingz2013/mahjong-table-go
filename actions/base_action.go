@@ -4,8 +4,8 @@ type BaseAction interface {
 	GetInfo() map[string]interface{}
 	GetName() string
 	GetLevel() int
-	IsValid(action *BaseAction) bool
-	UpdateLocalAction(action *BaseAction)
+	IsValid(action BaseAction) bool
+	UpdateLocalAction(action BaseAction)
 }
 
 const (

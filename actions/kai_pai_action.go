@@ -26,10 +26,10 @@ func (a KaiPaiAction) GetLevel() int {
 	return a.level
 }
 
-func (a KaiPaiAction) IsValid(action *BaseAction) bool {
+func (a KaiPaiAction) IsValid(action BaseAction) bool {
 	return false
 }
 
-func (a KaiPaiAction) UpdateLocalAction(action *BaseAction) {
+func (a KaiPaiAction) UpdateLocalAction(action BaseAction) {
 
 }

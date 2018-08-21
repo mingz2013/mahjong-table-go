@@ -1,6 +1,9 @@
 package player
 
-import "github.com/mingz2013/mahjong-table-go/actions"
+import (
+	"github.com/mingz2013/mahjong-table-go/actions"
+	"log"
+)
 
 type PlayerActions struct {
 	actions []actions.BaseAction
@@ -20,8 +23,10 @@ func (p *PlayerActions) GetActionsInfo() (info []interface{}) {
 	return
 }
 
-func (p *PlayerActions) AddActions() {
-
+func (p *PlayerActions) AddActions(actions []actions.BaseAction) {
+	for i := 0; i < len(actions); i++ {
+		p.AddAction(actions[i])
+	}
 }
 
 func (p *PlayerActions) AddAction(action actions.BaseAction) {
@@ -30,7 +35,10 @@ func (p *PlayerActions) AddAction(action actions.BaseAction) {
 
 func (p *PlayerActions) RemoveAction(action actions.BaseAction) {
 	for i := 0; i < len(p.actions); i++ {
-
+		if action.IsValid(p.actions[i]) {
+			p.actions = append(p.actions[:i], p.actions[i+1:]...)
+			break
+		}
 	}
 }
 
@@ -39,11 +47,11 @@ func (p *PlayerActions) ClearActions() {
 }
 
 func (p *PlayerActions) IsCanDoAction(action actions.BaseAction) (bool, actions.BaseAction) {
-
+	log.Println("PlayerActions.IsCanDoAction", action)
 	for i := 0; i < len(p.actions); i++ {
-		if action.IsValid(&p.actions[i]) {
+		if action.IsValid(p.actions[i]) {
 
-			action.UpdateLocalAction(&p.actions[i])
+			action.UpdateLocalAction(p.actions[i])
 
 			return true, action
 		}
@@ -53,6 +61,8 @@ func (p *PlayerActions) IsCanDoAction(action actions.BaseAction) (bool, actions.
 }
 
 func (p *PlayerActions) ChoiceAction(action actions.BaseAction) bool {
+	log.Println("PlayerActions.ChoiceAction", action)
+
 	// 用户选择操作，选择了一个按钮
 	isCanDo, action := p.IsCanDoAction(action)
 	if isCanDo {
@@ -83,6 +93,7 @@ func (p *PlayerActions) ClearChoosedAction() {
 
 }
 
-func (p *PlayerActions) IsActionEmpty() {
-
+func (p *PlayerActions) IsActionEmpty() bool {
+	//
+	return len(p.actions) == 0
 }

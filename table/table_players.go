@@ -33,6 +33,7 @@ func (p *TablePlayers) isAllPlayersActionEmpty() {
 }
 
 func (p *TablePlayers) GetBestChoosedActionPlayer() (bestPlayer *player.Player) {
+	log.Println("<< TablePlayers.GetBestChoosedActionPlayer...")
 	for i := 0; i < len(p.Players); i++ {
 		player_ := p.Players[i]
 
