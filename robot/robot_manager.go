@@ -3,6 +3,7 @@ package robot
 import (
 	"github.com/mingz2013/mahjong-table-go/base"
 	"github.com/mingz2013/mahjong-table-go/msg"
+	"log"
 	"sync"
 	"time"
 )
@@ -16,14 +17,22 @@ type RobotSession struct {
 }
 
 type RobotManager struct {
-	Sessions []RobotSession
+	SessionMap map[int]RobotSession
 
 	MsgIn  <-chan msg.Msg
 	MsgOut chan<- msg.Msg
+
+	RobotIds []int
 }
 
 func (r *RobotManager) Init() {
 
+	r.SessionMap = map[int]RobotSession{}
+
+	r.RobotIds = []int{}
+	for i := 1; i <= 1000; i++ {
+		r.RobotIds = append(r.RobotIds, i)
+	}
 }
 
 func NewRobotManager(msgIn chan msg.Msg, msgOut chan msg.Msg) RobotManager {
@@ -33,6 +42,7 @@ func NewRobotManager(msgIn chan msg.Msg, msgOut chan msg.Msg) RobotManager {
 }
 
 func (r RobotManager) Run() {
+	log.Println("RobotManager.Run...")
 	for {
 		select {
 		case m, ok := <-r.MsgIn:
@@ -53,6 +63,12 @@ func (r RobotManager) Run() {
 
 func (r *RobotManager) onMsg(m msg.Msg) {
 
+	userId := m.GetKey("userId").(int)
+
+	session := r.SessionMap[userId]
+
+	session.MsgIn <- m
+
 }
 
 func (r *RobotManager) NewRobot() {
@@ -61,12 +77,17 @@ func (r *RobotManager) NewRobot() {
 		return
 	}
 
-	robot := NewRobot(userId)
+	msgOut := make(chan msg.Msg)
+	msgIn := make(chan msg.Msg)
+
+	robot := NewRobot(userId, "", msgIn, msgOut)
 	session := RobotSession{}
 	session.Robot = robot
-	r.Sessions = append(r.Sessions, session)
+	session.MsgIn = msgIn
+	session.MsgOut = msgOut
+	r.SessionMap[userId] = session
 
-	base.RunProcessor(wg, robot)
+	base.RunProcessor(&wg, robot)
 
 	wg.Add(1)
 	go func() {
@@ -90,6 +111,11 @@ func (r *RobotManager) NewRobot() {
 
 }
 
-func (r *RobotManager) findOneUserId() (int, bool) {
-	return 1, true
+func (r *RobotManager) findOneUserId() (userId int, ok bool) {
+	if len(r.RobotIds) == 0 {
+		return 0, false
+	}
+	userId = r.RobotIds[0]
+	r.RobotIds = r.RobotIds[1:]
+	return userId, true
 }

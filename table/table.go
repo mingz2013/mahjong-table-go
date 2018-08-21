@@ -32,7 +32,7 @@ func (t *Table) Init() {
 }
 
 func (t Table) Run() {
-
+	log.Println("Table.Run...")
 	for {
 		select {
 		case m, ok := <-t.MsgIn:

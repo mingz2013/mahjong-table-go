@@ -113,8 +113,8 @@ func main() {
 
 	log.Println("bound ch down")
 
-	base.RunProcessor(wg, table)
-	base.RunProcessor(wg, robotManager)
+	base.RunProcessor(&wg, table)
+	base.RunProcessor(&wg, robotManager)
 	//for i := 0; i < len(robots); i++ {
 	//
 	//	base.RunProcessor(wg, robots[i].Robot)
