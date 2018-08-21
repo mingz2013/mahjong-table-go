@@ -11,6 +11,10 @@ package msg
 
 type Msg map[string]interface{}
 
+func (m Msg) Clone() (c Msg) {
+	return m
+}
+
 func (m Msg) GetCmd() string {
 	return m["cmd"].(string)
 }
@@ -19,12 +23,20 @@ func (m Msg) SetCmd(cmd string) {
 	m["cmd"] = cmd
 }
 
+func (m Msg) GetParam(key string) interface{} {
+	return m.GetParams()[key]
+}
+
 func (m Msg) GetParams() map[string]interface{} {
 	return m["params"].(map[string]interface{})
 }
 
 func (m Msg) SetParams(params map[string]interface{}) {
 	m["params"] = params
+}
+
+func (m Msg) GetResult(key string) interface{} {
+	return m.GetResults()[key]
 }
 
 func (m Msg) GetResults() map[string]interface{} {
@@ -41,6 +53,10 @@ func (m Msg) SetKey(key string, value interface{}) {
 
 func (m Msg) GetKey(key string) interface{} {
 	return m[key]
+}
+
+func (m Msg) RmKey(key string) {
+
 }
 
 func NewMsg() Msg {
