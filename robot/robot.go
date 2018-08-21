@@ -42,8 +42,13 @@ func (r *Robot) SendTableReq(action string, params map[string]interface{}) {
 	r.SendReq("table", params)
 }
 
+func (r *Robot) SendPlayReq(action string, params map[string]interface{}) {
+	params["action"] = action
+	r.SendReq("play", params)
+}
+
 func (r *Robot) SendReq(cmd string, params map[string]interface{}) {
-	r.MsgOut <- msg.Msg{"cmd": cmd, "params": params}
+	r.MsgOut <- msg.Msg{"id": r.Id, "cmd": cmd, "params": params}
 }
 
 func (r Robot) Run() {
@@ -168,7 +173,7 @@ func (r *Robot) processActions(actions_ []interface{}) {
 					chuPaiAction.Tile = r.Cards.ChoiceTileToDrop()
 				}
 
-				actionObjs = append(actionObjs, &chuPaiAction)
+				actionObjs = append(actionObjs, chuPaiAction)
 
 			}
 		default:
@@ -188,4 +193,14 @@ func (r *Robot) processActions(actions_ []interface{}) {
 func (r *Robot) DoAction(action actions.BaseAction) {
 	log.Println("Robot.DoAction", action)
 	r.Cards.DoAction(action)
+
+	switch action.GetName() {
+	case "chu_pai":
+		r.AfterActionChuPai(action.(actions.ChuPaiAction))
+
+	}
+}
+
+func (r *Robot) AfterActionChuPai(action actions.ChuPaiAction) {
+	r.SendPlayReq("chu_pai", action.GetInfo())
 }

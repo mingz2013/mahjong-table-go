@@ -35,6 +35,35 @@ func (p *Play) GetNextSeatId() {
 }
 
 func (p *Play) OnMsg(m msg.Msg) {
+	log.Println("Play.OnMsg->", m)
+	action := m.GetParams()["action"].(string)
+	userId := m.GetKey("id").(int)
+
+	_player := p.table.GetPlayersByUserId(userId)
+	var _action actions.BaseAction
+	switch action {
+	case "chu_pai":
+		_action := actions.ChuPaiAction{}
+		_action.ParseFromInfo(m.GetParams())
+	default:
+		log.Println("Play.OnMsg..err.....", m)
+	}
+
+	_player.ChoiceAction(_action)
+	p.DoActionCheckToDo(_player, _action)
+}
+
+func (p *Play) DoActionCheckToDo(player *player.Player, action actions.BaseAction) {
+	// 所有人都选择了, 选择其中最高优先级的
+	// 当前选择的是未选择中玩家最高优先级的
+	// 之前选择过的，已经有最高优先级的了
+	if p.table.isAllPlayersChoosedAction() || p.table.isPlayersBestAction(player, action) || p.table.isBestActionComming() {
+		bestPlayer := p.table.GetBestChoosedActionPlayer()
+		bestAction := bestPlayer.ChoosedAction
+
+		bestPlayer.DoAction(bestAction)
+
+	}
 
 }
 

@@ -14,6 +14,8 @@ type Player struct {
 	cards.Cards
 
 	actions []actions.BaseAction
+
+	ChoosedAction actions.BaseAction
 }
 
 func (p *Player) Init() {
@@ -46,16 +48,19 @@ func (p *Player) AddAction(action actions.BaseAction) {
 	p.actions = append(p.actions, action)
 }
 
-func (p *Player) choiceAction() {
+func (p *Player) ChoiceAction(action actions.BaseAction) {
 	// 用户选择操作，选择了一个按钮
+	p.actions = append(p.actions, action)
 }
 
-func (p *Player) isChoosedAction() {
+func (p *Player) IsChoosedAction() bool {
 	// 用户是否选择过了操作
+	return len(p.actions) == 0
 }
 
-func (p *Player) getBestActionSelf() {
+func (p *Player) GetBestActionSelf() actions.BaseAction {
 	// 获取自己可操作的actions中优先级最高的action
+	return nil
 }
 
 func (p *Player) getWorstActionSelf() {
