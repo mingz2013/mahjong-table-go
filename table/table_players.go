@@ -3,6 +3,7 @@ package table
 import (
 	"github.com/mingz2013/mahjong-table-go/actions"
 	"github.com/mingz2013/mahjong-table-go/player"
+	"log"
 )
 
 type TablePlayers struct {
@@ -34,6 +35,7 @@ func (p *TablePlayers) isAllPlayersActionEmpty() {
 func (p *TablePlayers) GetBestChoosedActionPlayer() (bestPlayer *player.Player) {
 	for i := 0; i < len(p.Players); i++ {
 		player_ := p.Players[i]
+
 		if player_.ChoosedAction != nil {
 			if bestPlayer == nil {
 				bestPlayer = player_
@@ -52,6 +54,7 @@ func (p *TablePlayers) GetBestChoosedActionPlayer() (bestPlayer *player.Player) 
 		}
 	}
 
+	log.Println(">>", "TablePlayers.GetBestChoosedActionPlayer", bestPlayer)
 	return
 }
 
