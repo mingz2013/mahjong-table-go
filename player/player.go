@@ -1,6 +1,7 @@
 package player
 
 import (
+	"github.com/mingz2013/mahjong-table-go/actions"
 	"github.com/mingz2013/mahjong-table-go/cards"
 )
 
@@ -17,6 +18,7 @@ type Player struct {
 
 func (p *Player) Init() {
 	p.Cards = cards.NewCards()
+	p.PlayerActions.Init()
 }
 
 func NewPlayer(seatId int) *Player {
@@ -34,6 +36,6 @@ func (p *Player) GetShadowInfo() {
 
 }
 
-func (p *Player) DoAction() {
+func (p *Player) DoAction(action actions.BaseAction) {
 
 }

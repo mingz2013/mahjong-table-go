@@ -8,11 +8,20 @@ type PlayerActions struct {
 	ChoosedAction actions.BaseAction
 }
 
+func (p *PlayerActions) Init() {
+	p.actions = []actions.BaseAction{}
+	p.ChoosedAction = nil
+}
+
 func (p *PlayerActions) GetActionsInfo() (info []interface{}) {
 	for i := 0; i < len(p.actions); i++ {
 		info = append(info, p.actions[i].GetInfo())
 	}
 	return
+}
+
+func (p *PlayerActions) AddActions() {
+
 }
 
 func (p *PlayerActions) AddAction(action actions.BaseAction) {
@@ -30,6 +39,16 @@ func (p *PlayerActions) ClearActions() {
 }
 
 func (p *PlayerActions) IsCanDoAction(action actions.BaseAction) (bool, actions.BaseAction) {
+
+	for i := 0; i < len(p.actions); i++ {
+		if action.IsValid(&p.actions[i]) {
+
+			action.UpdateLocalAction(&p.actions[i])
+
+			return true, action
+		}
+	}
+
 	return false, action
 }
 
@@ -65,9 +84,5 @@ func (p *PlayerActions) ClearChoosedAction() {
 }
 
 func (p *PlayerActions) IsActionEmpty() {
-
-}
-
-func (p *PlayerActions) AddActions() {
 
 }

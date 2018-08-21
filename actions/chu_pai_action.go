@@ -31,3 +31,11 @@ func (a ChuPaiAction) GetName() string {
 func (a ChuPaiAction) GetLevel() int {
 	return a.level
 }
+
+func (a ChuPaiAction) IsValid(action *BaseAction) bool {
+	return false
+}
+
+func (a ChuPaiAction) UpdateLocalAction(action *BaseAction) {
+
+}
