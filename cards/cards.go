@@ -1,6 +1,9 @@
 package cards
 
-import "github.com/mingz2013/mahjong-table-go/actions"
+import (
+	"github.com/mingz2013/mahjong-table-go/actions"
+	"log"
+)
 
 type Pile struct {
 }
@@ -212,6 +215,9 @@ func (c *Cards) DoMoPaiAction(action actions.MoPaiAction) {
 // 一些算法
 
 func (c *Cards) ChoiceActionToDo(actions []actions.BaseAction) actions.BaseAction {
+	// 选择一个操作去做
+	log.Println("Cards.ChoiceActionToDo", actions)
+
 	return nil
 }
 

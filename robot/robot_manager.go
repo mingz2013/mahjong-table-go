@@ -33,6 +33,11 @@ func (r *RobotManager) Init() {
 	for i := 1; i <= 1000; i++ {
 		r.RobotIds = append(r.RobotIds, i)
 	}
+
+	for i := 0; i < 4; i++ {
+		r.NewRobot()
+	}
+
 }
 
 func NewRobotManager(msgIn chan msg.Msg, msgOut chan msg.Msg) RobotManager {
@@ -62,8 +67,9 @@ func (r RobotManager) Run() {
 }
 
 func (r *RobotManager) onMsg(m msg.Msg) {
+	log.Println("RobotManager.onMsg", m)
 
-	userId := m.GetKey("userId").(int)
+	userId := m.GetKey("id").(int)
 
 	session := r.SessionMap[userId]
 

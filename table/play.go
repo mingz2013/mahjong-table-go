@@ -44,24 +44,31 @@ func (p *Play) Run() {
 }
 
 func (p *Play) start() {
+	log.Println("Play.start...players", p.table.Players)
 	p.kaiPai()
 	p.nextOp(0)
 }
 
 func (p *Play) kaiPai() {
-
+	log.Println("Play.kaiPai...")
 	for i := 0; i < 4; i++ {
 		tiles := p.PopKaiPai()
 		action := actions.NewKaiPaiAction(tiles)
 		player_ := p.table.Players[i]
+
+		log.Println("Play.kaiPai..", "p.table.Players", p.table.Players)
+
 		player_.DoKaiPaiAction(action)
 		//action.DoAction(player_)
+
+		log.Println("Play.kaiPai..", player_, action)
+
 		p.afterActionKaiPai(player_, action)
 	}
 
 }
 
-func (p *Play) SendPlayKaiPaiRes(player player.Player, action actions.KaiPaiAction) {
+func (p *Play) SendPlayKaiPaiRes(player *player.Player, action actions.KaiPaiAction) {
 
 	results := action.GetInfo()
 	results["actions"] = player.GetActionsInfo()
@@ -74,7 +81,7 @@ func (p *Play) nextOp(seatId int) {
 	p.moPai(p.table.Players[seatId])
 }
 
-func (p *Play) moPai(player player.Player) {
+func (p *Play) moPai(player *player.Player) {
 	tile, ok := p.PopMoPai()
 	log.Println("Play.moPai..", tile, ok)
 	if !ok {
@@ -88,18 +95,19 @@ func (p *Play) moPai(player player.Player) {
 
 }
 
-func (p *Play) afterActionMoPai(player player.Player, action actions.MoPaiAction) {
+func (p *Play) afterActionMoPai(player *player.Player, action actions.MoPaiAction) {
 	chuPaiAction := actions.NewChuPaiAction(-1)
 	player.AddAction(&chuPaiAction)
 
 	p.SendPlayMoPaiRes(player, action)
 }
 
-func (p *Play) afterActionKaiPai(player player.Player, action actions.KaiPaiAction) {
+func (p *Play) afterActionKaiPai(player *player.Player, action actions.KaiPaiAction) {
+	log.Println("Play.afterActionKaiPai", "player", player, "action", action)
 	p.SendPlayKaiPaiRes(player, action)
 }
 
-func (p *Play) SendPlayMoPaiRes(player player.Player, action actions.MoPaiAction) {
+func (p *Play) SendPlayMoPaiRes(player *player.Player, action actions.MoPaiAction) {
 	results := action.GetInfo()
 	results["actions"] = player.GetActionsInfo()
 	p.SendPlayRes(player, "mo_pai", results)
@@ -117,7 +125,8 @@ func (p *Play) onPlayOver() {
 
 }
 
-func (p *Play) SendPlayRes(player player.Player, action string, results map[string]interface{}) {
+func (p *Play) SendPlayRes(player *player.Player, action string, results map[string]interface{}) {
 	results["action"] = action
+
 	p.table.SendRes(player.Id, "play", results)
 }

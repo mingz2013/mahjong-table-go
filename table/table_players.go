@@ -3,7 +3,7 @@ package table
 import "github.com/mingz2013/mahjong-table-go/player"
 
 type TablePlayers struct {
-	Players [4]player.Player
+	Players [4]*player.Player
 }
 
 func (p *TablePlayers) Init() {

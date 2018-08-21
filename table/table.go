@@ -124,7 +124,9 @@ func (t *Table) SendTableRes(id int, action string, results map[string]interface
 }
 
 func (t *Table) SendRes(id int, cmd string, results map[string]interface{}) {
-	t.MsgOut <- msg.Msg{"id": id, "cmd": cmd, "results": results}
+	m := msg.Msg{"id": id, "cmd": cmd, "results": results}
+	log.Println("Table.SendRes-->", m)
+	t.MsgOut <- m
 }
 
 func (t *Table) checkFull() {
@@ -137,5 +139,6 @@ func (t *Table) checkFull() {
 }
 
 func (t *Table) onTableStart() {
+	log.Println("Table.onTableStart...")
 	t.Play.Run()
 }

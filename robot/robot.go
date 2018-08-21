@@ -126,7 +126,7 @@ func (r *Robot) onActionKaiPai(m msg.Msg) {
 	action := actions.NewKaiPaiAction(tiles)
 	r.Cards.DoKaiPaiAction(action)
 
-	actions_ := results["actions"].([]map[string]interface{})
+	actions_ := results["actions"].([]interface{})
 
 	r.processActions(actions_)
 }
@@ -137,27 +137,28 @@ func (r *Robot) onActionMoPai(m msg.Msg) {
 	action := actions.NewMoPaiAction(tile)
 	r.Cards.DoMoPaiAction(action)
 
-	actions_ := results["actions"].([]map[string]interface{})
+	actions_ := results["actions"].([]interface{})
 	r.processActions(actions_)
 
 }
 
-func (r *Robot) processActions(actions_ []map[string]interface{}) {
+func (r *Robot) processActions(actions_ []interface{}) {
+	log.Println("Robot.processActions", actions_)
 
 	// 转化为对象
-	var actionsObj []actions.BaseAction
+	var actionObjs []actions.BaseAction
 
-	for i := 1; i < len(actions_); i++ {
-		action := actions_[i]
+	for i := 0; i < len(actions_); i++ {
+		action := actions_[i].(map[string]interface{})
 
-		log.Println("doActions...", action)
+		log.Println("Robot.processActions", "doActions...", action)
 
-		switch action["name"] {
+		switch action["name"].(string) {
 		case "chu_pai":
 			{
 				chuPaiAction := actions.ChuPaiAction{}
 				chuPaiAction.ParseFromInfo(action)
-				actionsObj = append(actionsObj, &chuPaiAction)
+				actionObjs = append(actionObjs, &chuPaiAction)
 
 			}
 		default:
@@ -167,12 +168,14 @@ func (r *Robot) processActions(actions_ []map[string]interface{}) {
 
 	}
 
-	actionObj := r.Cards.ChoiceActionToDo(actionsObj)
-
-	r.DoAction(actionObj)
+	actionObj := r.Cards.ChoiceActionToDo(actionObjs)
+	if actionObj != nil {
+		r.DoAction(actionObj)
+	}
 
 }
 
 func (r *Robot) DoAction(action actions.BaseAction) {
+	log.Println("Robot.DoAction", action)
 	r.Cards.DoAction(action)
 }

@@ -20,9 +20,9 @@ func (p *Player) Init() {
 	p.Cards = cards.NewCards()
 }
 
-func NewPlayer(seatId int) Player {
+func NewPlayer(seatId int) *Player {
 
-	p := Player{SeatId: seatId}
+	p := &Player{SeatId: seatId}
 	p.Init()
 	return p
 }
