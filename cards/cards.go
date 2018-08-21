@@ -68,6 +68,10 @@ func (h *HandPile) hasHu(tile int) []interface{} {
 	return []interface{}{}
 }
 
+func (h *HandPile) ChoiceTileToDrop() int {
+	return h.pattern[len(h.pattern)-1]
+}
+
 type DropPile struct {
 	pattern        []int // 对应前端显示的，不包括被别人拿走的
 	patternHistory []int // 所有的历史记录
@@ -201,6 +205,12 @@ func (c *Cards) rmDropTile() {
 }
 
 func (c *Cards) DoAction(action actions.BaseAction) {
+	log.Println("Cards.DoAction...", action)
+
+	switch action.GetName() {
+	case "kai_pai":
+
+	}
 
 }
 
@@ -212,13 +222,32 @@ func (c *Cards) DoMoPaiAction(action actions.MoPaiAction) {
 	c.nowTile = action.Tile
 }
 
+func (c *Cards) DoChuPaiAction(action actions.ChuPaiAction) {
+
+}
+
 // 一些算法
 
 func (c *Cards) ChoiceActionToDo(actions []actions.BaseAction) actions.BaseAction {
 	// 选择一个操作去做
 	log.Println("Cards.ChoiceActionToDo", actions)
 
-	return nil
+	for i := 0; i < len(actions); i++ {
+		for j := i + 1; j < len(actions); j++ {
+			if actions[i].GetLevel() < actions[j].GetLevel() {
+				actions[i], actions[j] = actions[j], actions[i]
+			}
+		}
+	}
+
+	return actions[len(actions)-1]
+}
+
+func (c *Cards) ChoiceTileToDrop() int {
+	if c.nowTile > 0 {
+		return c.nowTile
+	}
+	return c.handPile.ChoiceTileToDrop()
 }
 
 func (c *Cards) assertCount() {

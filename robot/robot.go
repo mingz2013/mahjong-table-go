@@ -138,12 +138,17 @@ func (r *Robot) onActionMoPai(m msg.Msg) {
 	r.Cards.DoMoPaiAction(action)
 
 	actions_ := results["actions"].([]interface{})
+
 	r.processActions(actions_)
 
 }
 
 func (r *Robot) processActions(actions_ []interface{}) {
 	log.Println("Robot.processActions", actions_)
+
+	if len(actions_) == 0 {
+		return
+	}
 
 	// 转化为对象
 	var actionObjs []actions.BaseAction
@@ -158,6 +163,11 @@ func (r *Robot) processActions(actions_ []interface{}) {
 			{
 				chuPaiAction := actions.ChuPaiAction{}
 				chuPaiAction.ParseFromInfo(action)
+
+				if chuPaiAction.Tile < 0 {
+					chuPaiAction.Tile = r.Cards.ChoiceTileToDrop()
+				}
+
 				actionObjs = append(actionObjs, &chuPaiAction)
 
 			}
