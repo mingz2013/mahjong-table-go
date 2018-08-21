@@ -16,7 +16,7 @@ func (a *ChuPaiAction) ParseFromInfo(action map[string]interface{}) ChuPaiAction
 	return *a
 }
 
-func (a *ChuPaiAction) GetInfo() map[string]interface{} {
+func (a ChuPaiAction) GetInfo() map[string]interface{} {
 	return map[string]interface{}{
 		"tile":  a.Tile,
 		"name":  a.name,
@@ -24,10 +24,10 @@ func (a *ChuPaiAction) GetInfo() map[string]interface{} {
 	}
 }
 
-func (a *ChuPaiAction) GetName() string {
+func (a ChuPaiAction) GetName() string {
 	return a.name
 }
 
-func (a *ChuPaiAction) GetLevel() int {
+func (a ChuPaiAction) GetLevel() int {
 	return a.level
 }

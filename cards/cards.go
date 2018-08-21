@@ -3,6 +3,7 @@ package cards
 import (
 	"github.com/mingz2013/mahjong-table-go/actions"
 	"log"
+	"sort"
 )
 
 type Pile struct {
@@ -24,12 +25,20 @@ func (h *HandPile) getShadowInfo() {
 
 }
 
-func (h *HandPile) addTile() {
-
+func (h *HandPile) addTile(tile int) {
+	h.pattern = append(h.pattern, tile)
+	sort.Ints(h.pattern)
+	//h.pattern.PushBack(tile)
+	//h.pattern
 }
 
-func (h *HandPile) rmTile() {
-
+func (h *HandPile) rmTile(tile int) {
+	for i := 0; i < len(h.pattern); i++ {
+		if h.pattern[i] == tile {
+			h.pattern = append(h.pattern[:i], h.pattern[i+1:]...)
+			return
+		}
+	}
 }
 
 func (h *HandPile) rmTiles() {
@@ -85,8 +94,8 @@ func (d *DropPile) GetInfo() {
 
 }
 
-func (d *DropPile) AddTile() {
-
+func (d *DropPile) AddTile(tile int) {
+	d.pattern = append(d.pattern, tile)
 }
 
 func (d *DropPile) RmTile() {
@@ -209,6 +218,13 @@ func (c *Cards) DoAction(action actions.BaseAction) {
 
 	switch action.GetName() {
 	case "kai_pai":
+		c.DoKaiPaiAction(action.(actions.KaiPaiAction))
+	case "mo_pai":
+		c.DoMoPaiAction(action.(actions.MoPaiAction))
+	case "chu_pai":
+		c.DoChuPaiAction(action.(actions.ChuPaiAction))
+	default:
+		log.Println("known action", action)
 
 	}
 
@@ -223,6 +239,12 @@ func (c *Cards) DoMoPaiAction(action actions.MoPaiAction) {
 }
 
 func (c *Cards) DoChuPaiAction(action actions.ChuPaiAction) {
+	if c.nowTile > 0 {
+		c.handPile.addTile(c.nowTile)
+		c.nowTile = -1
+	}
+	c.handPile.rmTile(action.Tile)
+	c.dropPile.AddTile(action.Tile)
 
 }
 
@@ -244,6 +266,7 @@ func (c *Cards) ChoiceActionToDo(actions []actions.BaseAction) actions.BaseActio
 }
 
 func (c *Cards) ChoiceTileToDrop() int {
+	// 选一张牌打出去
 	if c.nowTile > 0 {
 		return c.nowTile
 	}
