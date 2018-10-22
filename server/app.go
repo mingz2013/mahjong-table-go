@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"github.com/mingz2013/lib-go/actor"
 	"github.com/mingz2013/lib-go/net_base"
 	"github.com/mingz2013/mahjong-table-go/manager"
 	"log"
@@ -10,12 +11,14 @@ import (
 // 桌子进程，很有可能，只是个客户端，连接到中心服务器，不用server监听
 
 type TableApp struct {
-	net_base.Handler
+	redisChannelActor *actor.RedisChannelActor
 
 	manager manager.Manager
 }
 
 func (a *TableApp) Init() {
+	a.redisChannelActor = actor.NewRedisChannelActor("")
+	a.redisChannelActor.SetHandler(a)
 	a.manager = manager.NewTableManager("111")
 }
 
@@ -23,6 +26,15 @@ func NewTableApp() *TableApp {
 	a := &TableApp{}
 	a.Init()
 	return a
+}
+
+func (a *TableApp) Start() {
+	a.redisChannelActor.Start()
+	//a.manager.Start()
+}
+
+func (a *TableApp) OnRedisChannelMessage(message []byte) (retMsg []byte) {
+	return
 }
 
 func (a *TableApp) Serve(c net_base.Conn, buf []byte) {
