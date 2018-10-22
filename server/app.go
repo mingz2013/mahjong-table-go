@@ -34,6 +34,7 @@ func (a *TableApp) Start() {
 }
 
 func (a *TableApp) OnRedisChannelMessage(message []byte) (retMsg []byte) {
+	retMsg = message
 	return
 }
 
