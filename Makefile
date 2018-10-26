@@ -1,5 +1,5 @@
 help:
-	echo "help"
+	@echo "Makefile help"
 
 mahjong-table-go:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
@@ -17,5 +17,5 @@ run:
 	docker run --net="host" -it mingz2013/mahjong-table-go
 
 
-.PYONY: commit-docker, docker-image, mahjong-table-go, help
+.PYONY: help, commit-docker, docker-image, mahjong-table-go, run
 
