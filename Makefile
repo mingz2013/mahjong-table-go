@@ -1,7 +1,11 @@
 help:
 	@echo "Makefile help"
 
-mahjong-table-go:
+clean:
+	rm mahjong-table-go
+
+
+mahjong-table-go: clean
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 
 docker-image: mahjong-table-go

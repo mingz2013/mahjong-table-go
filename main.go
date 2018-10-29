@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/mingz2013/mahjong-table-go/base"
 	"github.com/mingz2013/mahjong-table-go/msg"
 	"github.com/mingz2013/mahjong-table-go/robot"
-	table2 "github.com/mingz2013/mahjong-table-go/table"
+	"github.com/mingz2013/mahjong-table-go/server"
+	"github.com/mingz2013/mahjong-table-go/table"
 	"log"
 	"sync"
 )
@@ -45,7 +47,7 @@ func StartLocalTest() {
 	tableMsgIn := make(chan msg.Msg)
 	tableMsgOut := make(chan msg.Msg)
 
-	table := table2.NewTable(1, tableMsgIn, tableMsgOut)
+	table_new := table.NewTable(1, tableMsgIn, tableMsgOut)
 
 	robotManager := robot.NewRobotManager(tableMsgOut, tableMsgIn)
 	//var robots []RobotContext
@@ -113,7 +115,7 @@ func StartLocalTest() {
 
 	log.Println("bound ch down")
 
-	base.RunProcessor(&wg, table)
+	base.RunProcessor(&wg, table_new)
 	base.RunProcessor(&wg, robotManager)
 	//for i := 0; i < len(robots); i++ {
 	//
@@ -125,6 +127,20 @@ func StartLocalTest() {
 	wg.Wait()
 }
 
+func StartApp() {
+	confMap := map[string]interface{}{
+
+		"host":    "localhost",
+		"port":    "6379",
+		"db":      1,
+		"channel": "connector-server",
+	}
+	data, _ := json.Marshal(confMap)
+	a := server.NewApp(data)
+	a.Start()
+}
+
 func main() {
-	StartLocalTest()
+	//StartLocalTest()
+	StartApp()
 }

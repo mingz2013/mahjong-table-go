@@ -10,35 +10,36 @@ import (
 
 // 桌子进程，很有可能，只是个客户端，连接到中心服务器，不用server监听
 
-type TableApp struct {
+type App struct {
 	redisChannelActor *actor.RedisChannelActor
 
 	manager manager.Manager
 }
 
-func (a *TableApp) Init() {
-	a.redisChannelActor = actor.NewRedisChannelActor("")
+func (a *App) Init(conf []byte) {
+	a.redisChannelActor = actor.NewRedisChannelActor(string(conf))
 	a.redisChannelActor.SetHandler(a)
 	a.manager = manager.NewTableManager("111")
 }
 
-func NewTableApp() *TableApp {
-	a := &TableApp{}
-	a.Init()
+func NewApp(conf []byte) *App {
+	a := &App{}
+	a.Init(conf)
 	return a
 }
 
-func (a *TableApp) Start() {
+func (a *App) Start() {
 	a.redisChannelActor.Start()
 	//a.manager.Start()
+	a.redisChannelActor.Wait()
 }
 
-func (a *TableApp) OnRedisChannelMessage(message []byte) (retMsg []byte) {
+func (a *App) OnRedisChannelMessage(message []byte) (retMsg []byte) {
 	retMsg = message
 	return
 }
 
-func (a *TableApp) Serve(c net_base.Conn, buf []byte) {
+func (a *App) Serve(c net_base.Conn, buf []byte) {
 	// 解析成json，ServeJson
 	var js map[string]interface{}
 	err := json.Unmarshal(buf, js)
@@ -49,13 +50,14 @@ func (a *TableApp) Serve(c net_base.Conn, buf []byte) {
 	}
 }
 
-func (a *TableApp) ServeJson(c net_base.Conn, js map[string]interface{}) {
+func (a *App) ServeJson(c net_base.Conn, js map[string]interface{}) {
 	// 前端发第一个协议，bind_user, 绑定用户连接，前端数据中应该有userId和token
 	//cmd := js["cmd"].(string)
 	//userId := js["userId"].(int)
 	//token := js["token"].(string)
 	//// 验证token和userId
 
-	a.manager.MsgIn <- js
+	//m:= js.(msg.Msg)
+	//a.manager.MsgIn <- m
 
 }
