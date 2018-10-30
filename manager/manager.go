@@ -1,8 +1,8 @@
 package manager
 
 import (
-	"github.com/mingz2013/mahjong-table-go/msg"
-	table2 "github.com/mingz2013/mahjong-table-go/table"
+	"github.com/mingz2013/lib-go/msg"
+	"github.com/mingz2013/mahjong-table-go/table"
 	"log"
 	"sync"
 	"time"
@@ -139,9 +139,9 @@ func (mgr *Manager) createOneTable() (TableSession, bool) {
 		log.Println("not found tableid...")
 		return TableSession{}, false
 	}
-	table := table2.NewTable(tableId, tableMsgIn, tableMsgOut)
+	t := table.NewTable(tableId, tableMsgIn, tableMsgOut)
 
-	tableSession := NewTableSession(table, tableMsgIn, tableMsgOut, tableId)
+	tableSession := NewTableSession(t, tableMsgIn, tableMsgOut, tableId)
 
 	mgr.tableSessionMap[tableId] = tableSession
 

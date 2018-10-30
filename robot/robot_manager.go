@@ -1,8 +1,8 @@
 package robot
 
 import (
-	"github.com/mingz2013/mahjong-table-go/base"
-	"github.com/mingz2013/mahjong-table-go/msg"
+	"github.com/mingz2013/lib-go/base"
+	"github.com/mingz2013/lib-go/msg"
 	"log"
 	"sync"
 	"time"

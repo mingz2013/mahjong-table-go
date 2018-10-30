@@ -1,7 +1,7 @@
 package manager
 
 import (
-	"github.com/mingz2013/mahjong-table-go/msg"
+	"github.com/mingz2013/lib-go/msg"
 	"github.com/mingz2013/mahjong-table-go/table"
 )
 
