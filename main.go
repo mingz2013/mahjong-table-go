@@ -5,8 +5,8 @@ import (
 	"github.com/mingz2013/lib-go/base"
 	"github.com/mingz2013/lib-go/msg"
 	"github.com/mingz2013/mahjong-table-go/robot"
-	"github.com/mingz2013/mahjong-table-go/server"
 	"github.com/mingz2013/mahjong-table-go/table"
+	"github.com/mingz2013/table-manager-server-go/server"
 	"log"
 	"sync"
 )
