@@ -130,7 +130,7 @@ func StartLocalTest() {
 func StartApp() {
 	confMap := map[string]interface{}{
 
-		"host":    "localhost",
+		"host":    "redis-mq",
 		"port":    "6379",
 		"db":      1,
 		"channel": "connector-server",

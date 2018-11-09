@@ -16,9 +16,9 @@ commit-docker:docker-image
 	docker login
 	docker push mingz2013/mahjong-table-go
 
-
 run:
-	docker run --net="host" -it mingz2013/mahjong-table-go
+	docker run -d --link redis-mq:redis-mq --name mahjong-table-go -it mingz2013/mahjong-table-go:latest
+
 
 
 .PYONY: help, commit-docker, docker-image, mahjong-table-go, run
