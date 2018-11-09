@@ -47,7 +47,7 @@ func StartLocalTest() {
 	tableMsgIn := make(chan msg.Msg)
 	tableMsgOut := make(chan msg.Msg)
 
-	table_new := table.NewTable(1, tableMsgIn, tableMsgOut)
+	t := table.NewTable(1, tableMsgIn, tableMsgOut)
 
 	robotManager := robot.NewRobotManager(tableMsgOut, tableMsgIn)
 	//var robots []RobotContext
@@ -115,7 +115,7 @@ func StartLocalTest() {
 
 	log.Println("bound ch down")
 
-	base.RunProcessor(&wg, table_new)
+	base.RunProcessor(&wg, t)
 	base.RunProcessor(&wg, robotManager)
 	//for i := 0; i < len(robots); i++ {
 	//
