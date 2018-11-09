@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"github.com/mingz2013/lib-go/base"
 	"github.com/mingz2013/lib-go/msg"
+	"github.com/mingz2013/lib-go/table-manager"
 	"github.com/mingz2013/mahjong-table-go/robot"
 	"github.com/mingz2013/mahjong-table-go/table"
-	"github.com/mingz2013/table-manager-server-go/server"
 	"log"
 	"sync"
 )
@@ -136,7 +136,7 @@ func StartApp() {
 		"channel": "connector-server",
 	}
 	data, _ := json.Marshal(confMap)
-	a := server.NewApp(data)
+	a := table_manager.NewApp(data)
 	a.Start()
 }
 
