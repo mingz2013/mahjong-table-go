@@ -1,7 +1,7 @@
 package table
 
 import (
-	"github.com/mingz2013/lib-go/msg"
+	"github.com/mingz2013/game-table-go/msg"
 	"log"
 	"time"
 )

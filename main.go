@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/mingz2013/lib-go/base"
-	"github.com/mingz2013/lib-go/msg"
-	"github.com/mingz2013/lib-go/table-manager"
+	"github.com/mingz2013/game-table-go/base"
+	"github.com/mingz2013/game-table-go/msg"
+	"github.com/mingz2013/game-table-go/table-manager"
 	"github.com/mingz2013/mahjong-table-go/robot"
 	"github.com/mingz2013/mahjong-table-go/table"
 	"log"
