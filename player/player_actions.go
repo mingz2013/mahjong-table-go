@@ -1,8 +1,8 @@
 package player
 
 import (
-	"github.com/mingz2013/mahjong-table-go/actions"
 	"log"
+	"mahjong-table-go/actions"
 )
 
 type PlayerActions struct {

@@ -1,8 +1,8 @@
 package cards
 
 import (
-	"github.com/mingz2013/mahjong-table-go/actions"
 	"log"
+	"mahjong-table-go/actions"
 	"sort"
 )
 

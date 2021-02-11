@@ -1,8 +1,8 @@
 package table
 
 import (
-	"github.com/mingz2013/game-table-go/msg"
 	"log"
+	"mahjong-table-go/msg"
 	"time"
 )
 
